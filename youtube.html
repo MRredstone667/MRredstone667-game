@@ -2,46 +2,65 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Free iPhone 15</title>
+  <title>Start Game</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
-      overflow: hidden;
-    }
-    video {
-      width: 100vw;
+      background-color: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
       height: 100vh;
-      object-fit: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #start {
+      font-size: 2em;
+      background: limegreen;
+      color: black;
+      padding: 1em 2em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
 </head>
-<body onclick="playRickroll()">
-  <video id="rick" loop preload="auto">
-    <source src="rickroll.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+<body>
+  <h1>🎮 Start Game</h1>
+  <button id="start">▶️ Start</button>
+
+  <audio id="sound" loop>
+    <source src="zvuk.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
 
   <script>
-    const video = document.getElementById('rick');
+    const startBtn = document.getElementById('start');
+    const audio = document.getElementById('sound');
+    let blinking = false;
+    let blinkInterval;
 
-    function playRickroll() {
-      // Fullscreen
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
+    function startGame() {
+      // Spustit zvuk
+      audio.play();
+      // Spustit blikání
+      if (!blinking) {
+        blinking = true;
+        blinkInterval = setInterval(() => {
+          document.body.style.backgroundColor =
+            document.body.style.backgroundColor === 'black' ? 'white' : 'black';
+        }, 100); // změna každých 100 ms
       }
 
-      // Přehrání se zvukem
-      video.muted = false;
-      video.play();
-
-      // Už to nechceme spouštět znovu
-      document.body.onclick = null;
+      // Skrytí tlačítka a nadpisu
+      startBtn.style.display = 'none';
+      document.querySelector('h1').style.display = 'none';
     }
 
-    // Zablokování odchodu
-    window.onbeforeunload = () => "Už odcházíš? Rick teprve začal!";
+    startBtn.addEventListener('click', startGame);
   </script>
 </body>
 </html>
